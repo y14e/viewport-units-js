@@ -13,5 +13,5 @@ export function updateViewportUnit(root = document.documentElement) {
     '--vb': String(horizontal ? height : width),
     '--vmin': String(Math.min(width, height)),
     '--vmax': String(Math.max(width, height)),
-  }).forEach(([name, value]) => root.style.setProperty(name, `${value}px`));
+  }).forEach(([name, value]) => root.style.setProperty(name, value));
 }
