@@ -1,4 +1,4 @@
-export function updateViewportUnit(root = document.documentElement): void {
+export function updateViewportUnits(root = document.documentElement): void {
   if (!root) {
     return;
   }
