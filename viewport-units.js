@@ -3,7 +3,7 @@ export function updateViewportUnits(root = document.documentElement) {
     return;
   }
   const html = document.documentElement;
-  const horizontal = /^h/.test(window.getComputedStyle(html).getPropertyValue('writing-mode'));
+  const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const width = html.clientWidth / 100;
   const height = html.clientHeight / 100;
   Object.entries({
