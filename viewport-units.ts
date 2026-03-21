@@ -23,7 +23,7 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
       }).forEach(([name, value]) => root.style.setProperty(name, value));
     });
   };
-  const events = ['load', 'orientationchange', 'resize'];
+  const events = ['load', 'resize'];
   events.forEach((event) => window.addEventListener(event, update));
   window.visualViewport?.addEventListener('resize', update);
   const observer = new ResizeObserver(update);
