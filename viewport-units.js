@@ -2,8 +2,8 @@ export function updateViewportUnits(root = document.documentElement) {
   if (!root) {
     return () => {};
   }
-  const html = document.documentElement;
   let timer = 0;
+  const html = document.documentElement;
   const update = () => {
     if (timer) {
       return;
