@@ -13,14 +13,12 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
       const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
       const width = html.clientWidth / 100;
       const height = html.clientHeight / 100;
-      Object.entries({
-        '--vw': String(width),
-        '--vh': String(height),
-        '--vi': String(horizontal ? width : height),
-        '--vb': String(horizontal ? height : width),
-        '--vmin': String(Math.min(width, height)),
-        '--vmax': String(Math.max(width, height)),
-      }).forEach(([name, value]) => root.style.setProperty(name, value));
+      root.style.setProperty('--vw', String(width));
+      root.style.setProperty('--vh', String(height));
+      root.style.setProperty('--vi', String(horizontal ? width : height));
+      root.style.setProperty('--vb', String(horizontal ? height : width));
+      root.style.setProperty('--vmin', String(Math.min(width, height)));
+      root.style.setProperty('--vmax', String(Math.max(width, height)));
     });
   };
   const controller = new AbortController();
