@@ -27,7 +27,6 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
   window.visualViewport?.addEventListener('resize', update, { signal });
   const observer = new ResizeObserver(update);
   observer.observe(html);
-  document.fonts.ready.then(update);
   update();
   return () => {
     controller.abort();
