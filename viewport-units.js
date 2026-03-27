@@ -29,10 +29,11 @@ export function updateViewportUnits(root = document.documentElement) {
   observer.observe(html);
   update();
   return () => {
-    controller.abort();
-    observer.disconnect();
     if (timer) {
       cancelAnimationFrame(timer);
     }
+    controller.abort();
+    observer.disconnect();
+    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((name) => root.style.removeProperty(`${name}`));
   };
 }
