@@ -25,7 +25,9 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
   observer.observe(html);
   update();
   return () => {
-    if (timer) cancelAnimationFrame(timer);
+    if (timer) {
+      cancelAnimationFrame(timer);
+    }
     controller.abort();
     observer.disconnect();
     ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((name) => root.style.removeProperty(name));
