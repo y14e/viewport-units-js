@@ -1,14 +1,10 @@
 export function updateViewportUnits(root: HTMLElement = document.documentElement): () => void {
-  if (!root) {
-    return () => {};
-  }
+  if (!root) return () => {};
   let timer = 0;
   const html = document.documentElement;
   const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const update = () => {
-    if (timer) {
-      return;
-    }
+    if (timer) return;
     timer = requestAnimationFrame(() => {
       timer = 0;
       const width = html.clientWidth / 100;
@@ -29,11 +25,9 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
   observer.observe(html);
   update();
   return () => {
-    if (timer) {
-      cancelAnimationFrame(timer);
-    }
+    if (timer) cancelAnimationFrame(timer);
     controller.abort();
     observer.disconnect();
-    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((name) => root.style.removeProperty(`${name}`));
+    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((name) => root.style.removeProperty(name));
   };
 }
