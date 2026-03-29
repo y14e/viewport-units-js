@@ -1,8 +1,8 @@
 export function updateViewportUnits(root = document.documentElement) {
   if (!root) return () => {};
   let timer = 0;
-  let lastVW;
-  let lastVH;
+  let cacheVW;
+  let cacheVH;
   const html = document.documentElement;
   const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const update = () => {
@@ -11,9 +11,9 @@ export function updateViewportUnits(root = document.documentElement) {
       timer = 0;
       const vw = html.clientWidth / 100;
       const vh = html.clientHeight / 100;
-      if (lastVW === vw && lastVH === vh) return;
-      lastVW = vw;
-      lastVH = vh;
+      if (cacheVW === vw && cacheVH === vh) return;
+      cacheVW = vw;
+      cacheVH = vh;
       root.style.setProperty('--vw', String(vw));
       root.style.setProperty('--vh', String(vh));
       root.style.setProperty('--vi', String(horizontal ? vw : vh));
