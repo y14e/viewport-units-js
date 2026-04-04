@@ -36,6 +36,6 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
     }
     controller.abort();
     observer.disconnect();
-    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((name) => root.style.removeProperty(name));
+    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((prop) => root.style.removeProperty(prop));
   };
 }
