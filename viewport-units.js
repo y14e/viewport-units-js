@@ -1,14 +1,14 @@
 export function updateViewportUnits(root = document.documentElement) {
   if (!root) return () => {};
-  let timer = 0;
+  let timer;
   let cacheVW;
   let cacheVH;
   const html = document.documentElement;
   const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const update = () => {
-    if (timer) return;
+    if (timer !== undefined) return;
     timer = requestAnimationFrame(() => {
-      timer = 0;
+      timer = undefined;
       const vw = html.clientWidth / 100;
       const vh = html.clientHeight / 100;
       if (vw === cacheVW && vh === cacheVH) return;
@@ -31,7 +31,7 @@ export function updateViewportUnits(root = document.documentElement) {
   observer.observe(html);
   update();
   return () => {
-    if (timer) {
+    if (timer !== undefined) {
       cancelAnimationFrame(timer);
     }
     controller.abort();
