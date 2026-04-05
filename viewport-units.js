@@ -33,6 +33,7 @@ export function updateViewportUnits(root = document.documentElement) {
   return () => {
     if (timer !== undefined) {
       cancelAnimationFrame(timer);
+      timer = undefined;
     }
     controller.abort();
     observer.disconnect();
