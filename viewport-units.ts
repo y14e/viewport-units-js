@@ -1,8 +1,8 @@
 export function updateViewportUnits(root: HTMLElement = document.documentElement): () => void {
   if (!root) return () => {};
   let timer: ReturnType<typeof requestAnimationFrame> | undefined;
-  let cacheVW: number | undefined;
-  let cacheVH: number | undefined;
+  let cachedVW: number | undefined;
+  let cachedVH: number | undefined;
   const html = document.documentElement;
   const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const update = () => {
@@ -11,9 +11,9 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
       timer = undefined;
       const vw = html.clientWidth / 100;
       const vh = html.clientHeight / 100;
-      if (vw === cacheVW && vh === cacheVH) return;
-      cacheVW = vw;
-      cacheVH = vh;
+      if (vw === cachedVW && vh === cachedVH) return;
+      cachedVW = vw;
+      cachedVH = vh;
       const style = root.style;
       style.setProperty('--vw', String(vw));
       style.setProperty('--vh', String(vh));
@@ -23,12 +23,12 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
       style.setProperty('--vmax', String(Math.max(vw, vh)));
     });
   };
+  const observer = new ResizeObserver(update);
+  observer.observe(html);
   const controller = new AbortController();
   const { signal } = controller;
   window.addEventListener('resize', update, { signal });
   window.visualViewport?.addEventListener('resize', update, { signal });
-  const observer = new ResizeObserver(update);
-  observer.observe(html);
   update();
   return () => {
     if (timer !== undefined) {
@@ -37,6 +37,12 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
     }
     controller.abort();
     observer.disconnect();
-    ['--vw', '--vh', '--vi', '--vb', '--vmin', '--vmax'].forEach((prop) => root.style.removeProperty(prop));
+    const style = root.style;
+    style.removeProperty('--vw');
+    style.removeProperty('--vh');
+    style.removeProperty('--vi');
+    style.removeProperty('--vb');
+    style.removeProperty('--vmin');
+    style.removeProperty('--vmax');
   };
 }
