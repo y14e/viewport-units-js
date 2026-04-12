@@ -1,4 +1,4 @@
-export function syncViewportUnits(
+export function updateViewportUnits(
   root: HTMLElement = document.documentElement,
 ): () => void {
   if (!root) return () => {};
@@ -13,7 +13,7 @@ export function syncViewportUnits(
     getComputedStyle(html).getPropertyValue('writing-mode'),
   );
 
-  const step = (): void => {
+  const update = (): void => {
     timer = null;
 
     const vw = html.clientWidth / 100;
@@ -36,7 +36,7 @@ export function syncViewportUnits(
 
   const onResize = (): void => {
     if (timer !== null) return;
-    timer = requestAnimationFrame(step);
+    timer = requestAnimationFrame(update);
   };
 
   const controller = new AbortController();
@@ -45,14 +45,16 @@ export function syncViewportUnits(
   window.addEventListener('resize', onResize, { signal });
   window.visualViewport?.addEventListener('resize', onResize, { signal });
 
-  const observer = new ResizeObserver(onResize);
+  let observer: ResizeObserver | null = new ResizeObserver(onResize);
   observer.observe(html);
 
   onResize();
 
   return (): void => {
     controller.abort();
-    observer.disconnect();
+
+    observer?.disconnect();
+    observer = null;
 
     if (timer !== null) {
       cancelAnimationFrame(timer);
