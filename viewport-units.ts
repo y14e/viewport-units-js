@@ -12,8 +12,9 @@ export function updateViewportUnits(
   let cachedVW: number | undefined;
   let cachedVH: number | undefined;
 
-  const writingMode = getComputedStyle(html).getPropertyValue('writing-mode');
-  const horizontal = /^h/.test(writingMode);
+  const horizontal = /^h/.test(
+    getComputedStyle(html).getPropertyValue('writing-mode'),
+  );
 
   const update = (): void => {
     timer = undefined;
