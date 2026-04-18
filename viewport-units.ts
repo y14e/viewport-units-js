@@ -1,17 +1,13 @@
-export function updateViewportUnits(
-  root: HTMLElement = document.documentElement,
-): () => void {
+export function updateViewportUnits(root: HTMLElement = document.documentElement): () => void {
   if (!root) {
-    return (): void => { };
+    return (): void => {};
   }
 
   const html = document.documentElement;
   let timer: number | undefined;
   let cachedVW: number | undefined;
   let cachedVH: number | undefined;
-  const horizontal = /^h/.test(
-    getComputedStyle(html).getPropertyValue('writing-mode'),
-  );
+  const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
   const update = (): void => {
     timer = undefined;
     const vw = html.clientWidth / 100;
