@@ -8,6 +8,7 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
   let cachedVW: number | undefined;
   let cachedVH: number | undefined;
   const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
+
   const update = (): void => {
     timer = undefined;
     const vw = html.clientWidth / 100;
