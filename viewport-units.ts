@@ -2,7 +2,7 @@ export function updateViewportUnits(
   root: HTMLElement = document.documentElement,
 ): () => void {
   if (!root) {
-    return (): void => {};
+    return (): void => { };
   }
 
   const html = document.documentElement;
