@@ -12,7 +12,6 @@ export function updateViewportUnits(
   const horizontal = /^h/.test(
     getComputedStyle(html).getPropertyValue('writing-mode'),
   );
-
   const update = (): void => {
     timer = undefined;
     const vw = html.clientWidth / 100;
@@ -47,9 +46,7 @@ export function updateViewportUnits(
   window.visualViewport?.addEventListener('resize', onResize, { signal });
   let observer: ResizeObserver | null = new ResizeObserver(onResize);
   observer.observe(html);
-
   onResize();
-
   return (): void => {
     controller.abort();
     observer?.disconnect();
