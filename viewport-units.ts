@@ -7,7 +7,7 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
   let timer: number | undefined;
   let cachedVW: number | undefined;
   let cachedVH: number | undefined;
-  const horizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
+  const isHorizontal = /^h/.test(getComputedStyle(html).getPropertyValue('writing-mode'));
 
   const update = (): void => {
     timer = undefined;
@@ -23,8 +23,8 @@ export function updateViewportUnits(root: HTMLElement = document.documentElement
     const { style } = root;
     style.setProperty('--vw', String(vw));
     style.setProperty('--vh', String(vh));
-    style.setProperty('--vi', String(horizontal ? vw : vh));
-    style.setProperty('--vb', String(horizontal ? vh : vw));
+    style.setProperty('--vi', String(isHorizontal ? vw : vh));
+    style.setProperty('--vb', String(isHorizontal ? vh : vw));
     style.setProperty('--vmin', String(Math.min(vw, vh)));
     style.setProperty('--vmax', String(Math.max(vw, vh)));
   };
