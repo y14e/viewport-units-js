@@ -1,6 +1,9 @@
 # viewport-units.ts
+
 TS snippet for updating viewport units.
-## Installation
+
+## Usage
+
 ```ts
 import { updateViewportUnits } from './viewport-units';
 
