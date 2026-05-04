@@ -7,36 +7,28 @@
  * @copyright Copyright (c) 2026 Yusuke Kamiyamane
  * @see {@link https://github.com/y14e/viewport-units-ts}
  */
-
 // -----------------------------------------------------------------------------
 // APIs
 // -----------------------------------------------------------------------------
-
-export function updateViewportUnits(
-  root: HTMLElement = document.documentElement,
-): () => void {
+export function updateViewportUnits(root = document.documentElement) {
   if (!(root instanceof HTMLElement)) {
     console.warn('Invalid root element. Fallback: document.documentElement.');
     root = document.documentElement;
   }
-
   const html = document.documentElement;
-  let timer: number | undefined;
-  let lastVW: number | undefined;
-  let lastVH: number | undefined;
+  let timer;
+  let lastVW;
+  let lastVH;
   const isHorizontal = /^h/.test(
     getComputedStyle(html).getPropertyValue('writing-mode'),
   );
-
   function update() {
     timer = undefined;
     const vw = html.clientWidth / 100;
     const vh = html.clientHeight / 100;
-
     if (vw === lastVW && vh === lastVH) {
       return;
     }
-
     lastVW = vw;
     lastVH = vh;
     const { style } = root;
@@ -47,33 +39,27 @@ export function updateViewportUnits(
     style.setProperty('--vmin', String(Math.min(vw, vh)));
     style.setProperty('--vmax', String(Math.max(vw, vh)));
   }
-
   function onResize() {
     if (timer !== undefined) {
       return;
     }
-
     timer = requestAnimationFrame(update);
   }
-
   const controller = new AbortController();
   const { signal } = controller;
   window.addEventListener('resize', onResize, { signal });
   window.visualViewport?.addEventListener('resize', onResize, { signal });
-  let observer: ResizeObserver | null = new ResizeObserver(onResize);
+  let observer = new ResizeObserver(onResize);
   observer.observe(html);
   onResize();
-
   return () => {
     controller.abort();
     observer?.disconnect();
     observer = null;
-
     if (timer !== undefined) {
       cancelAnimationFrame(timer);
       timer = undefined;
     }
-
     const { style } = root;
     style.removeProperty('--vw');
     style.removeProperty('--vh');
