@@ -1,7 +1,7 @@
 /**
  * viewport-units.ts
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) 2026 Yusuke Kamiyamane
@@ -16,7 +16,10 @@ export function updateViewportUnits(
   root: HTMLElement = document.documentElement,
 ): () => void {
   if (!(root instanceof HTMLElement)) {
-    return () => {};
+    console.warn(
+      'Invalid root element. Falling back to document.documentElement.',
+    );
+    root = document.documentElement;
   }
 
   const html = document.documentElement;
