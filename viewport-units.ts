@@ -12,9 +12,7 @@
 // APIs
 // -----------------------------------------------------------------------------
 
-export function updateViewportUnits(
-  root: HTMLElement = document.documentElement,
-) {
+export function updateViewportUnits(root = document.documentElement) {
   if (!(root instanceof HTMLElement)) {
     console.warn(
       `Invalid root element. Fallback: <${document.documentElement.tagName.toLowerCase()}> element.`,
