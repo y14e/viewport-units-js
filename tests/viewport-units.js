@@ -1,10 +1,10 @@
 /**
  * viewport-units.ts
  *
- * @version 1.0.2
+ * @version 1.0.3
  * @author Yusuke Kamiyamane
  * @license MIT
- * @copyright Copyright (c) 2026 Yusuke Kamiyamane
+ * @copyright Copyright (c) Yusuke Kamiyamane
  * @see {@link https://github.com/y14e/viewport-units-ts}
  */
 // -----------------------------------------------------------------------------
@@ -24,26 +24,26 @@ export function updateViewportUnits(root = document.documentElement) {
   const isHorizontal = /^h/.test(
     getComputedStyle(html).getPropertyValue('writing-mode'),
   );
+  function step() {
+    timer = undefined;
+    const vw = html.clientWidth / 100;
+    const vh = html.clientHeight / 100;
+    if (vw === lastVW && vh === lastVH) {
+      return;
+    }
+    lastVW = vw;
+    lastVH = vh;
+    const { style } = root;
+    style.setProperty('--vw', String(vw));
+    style.setProperty('--vh', String(vh));
+    style.setProperty('--vi', String(isHorizontal ? vw : vh));
+    style.setProperty('--vb', String(isHorizontal ? vh : vw));
+    style.setProperty('--vmin', String(Math.min(vw, vh)));
+    style.setProperty('--vmax', String(Math.max(vw, vh)));
+  }
   function onResize() {
     if (timer !== undefined) {
       return;
-    }
-    function step() {
-      timer = undefined;
-      const vw = html.clientWidth / 100;
-      const vh = html.clientHeight / 100;
-      if (vw === lastVW && vh === lastVH) {
-        return;
-      }
-      lastVW = vw;
-      lastVH = vh;
-      const { style } = root;
-      style.setProperty('--vw', String(vw));
-      style.setProperty('--vh', String(vh));
-      style.setProperty('--vi', String(isHorizontal ? vw : vh));
-      style.setProperty('--vb', String(isHorizontal ? vh : vw));
-      style.setProperty('--vmin', String(Math.min(vw, vh)));
-      style.setProperty('--vmax', String(Math.max(vw, vh)));
     }
     timer = requestAnimationFrame(step);
   }
