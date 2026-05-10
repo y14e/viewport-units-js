@@ -1,7 +1,7 @@
 /**
  * viewport-units.ts
  *
- * @version 1.0.3
+ * @version 1.0.4
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -47,7 +47,7 @@ export function updateViewportUnits(root = document.documentElement) {
     }
     timer = requestAnimationFrame(step);
   }
-  const controller = new AbortController();
+  let controller = new AbortController();
   const { signal } = controller;
   window.addEventListener('resize', onResize, { signal });
   window.visualViewport?.addEventListener('resize', onResize, { signal });
@@ -55,7 +55,8 @@ export function updateViewportUnits(root = document.documentElement) {
   observer.observe(html);
   onResize();
   return () => {
-    controller.abort();
+    controller?.abort();
+    controller = null;
     observer?.disconnect();
     observer = null;
     if (timer !== undefined) {
