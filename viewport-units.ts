@@ -1,7 +1,7 @@
 /**
  * viewport-units.ts
  *
- * @version 1.0.5
+ * @version 1.0.6
  * @author Yusuke Kamiyamane
  * @license MIT
  * @copyright Copyright (c) Yusuke Kamiyamane
@@ -12,7 +12,7 @@
 // APIs
 // -----------------------------------------------------------------------------
 
-export function updateViewportUnits(root: HTMLElement) {
+export function updateViewportUnits(root = document.documentElement) {
   if (!(root instanceof HTMLElement)) {
     console.warn(
       `Invalid root element. Fallback: <${document.documentElement.tagName.toLowerCase()}> element.`,
